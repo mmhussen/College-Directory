@@ -41,16 +41,15 @@ public class StudentController {
         }
 	}
 	
-	@PutMapping("updatefaculty{id}")
-	public ResponseEntity<Student> updateFacultyDetails(@PathVariable Long id,@RequestBody Faculty faculty) {
+	@PutMapping("updatestudent{id}")
+	public ResponseEntity<Student> updateFacultyDetails(@PathVariable Long id,@RequestBody Student student) {
 		Student existingStudent = studentService.getStudentById(id);
 		
-		if(faculty!=null) {
-			existingStudent.setCourses(faculty.getCourses());
-			existingStudent.setDepartment(faculty.getDepartment());
-			existingStudent.setStudentName(faculty.getFacultyName());
-			existingStudent.setPhotoUrl(faculty.getPhotoUrl());
-			existingStudent.setYear(faculty.getYear());
+		if(existingStudent!=null) {
+			existingStudent.setCourses(student.getCourses());
+			existingStudent.setDepartment(student.getDepartment());
+			existingStudent.setPhotoUrl(student.getPhotoUrl());
+			existingStudent.setYear(student.getYear());
 			
 			return new ResponseEntity<>(studentService.updateStudent(existingStudent), HttpStatus.OK);
 		}else {

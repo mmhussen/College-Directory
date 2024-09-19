@@ -18,27 +18,32 @@ import jakarta.persistence.Table;
 @Entity(name="faculty")
 public class Faculty {
 	
-	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	@Id
-	private Long id;
+	private Integer userId;
+
+	@Column
+	private String photoUrl;
 	
-	@Column(name="faculty_name")
-	private String facultyName;
+	@Column
+	private String officeHours;
 	
-	public String getFacultyName() {
-		return facultyName;
+	@OneToOne
+    @JoinColumn
+    private User user;
+
+	@OneToMany(mappedBy = "faculty", cascade = CascadeType.ALL)
+    private Set<Courses> courses = new HashSet<>();
+
+    @ManyToOne
+    @JoinColumn(name = "department_id")
+    private Department department;
+
+	public Integer getUserId() {
+		return userId;
 	}
 
-	public void setFacultyName(String facultyName) {
-		this.facultyName = facultyName;
-	}
-
-	public Long getId() {
-		return id;
-	}
-
-	public void setId(Long id) {
-		this.id = id;
+	public void setUserId(Integer userId) {
+		this.userId = userId;
 	}
 
 	public String getPhotoUrl() {
@@ -49,12 +54,12 @@ public class Faculty {
 		this.photoUrl = photoUrl;
 	}
 
-	public String getYear() {
-		return year;
+	public String getOfficeHours() {
+		return officeHours;
 	}
 
-	public void setYear(String year) {
-		this.year = year;
+	public void setOfficeHours(String officeHours) {
+		this.officeHours = officeHours;
 	}
 
 	public User getUser() {
@@ -81,20 +86,16 @@ public class Faculty {
 		this.department = department;
 	}
 
-	@Column(name="photo_url")
-	private String photoUrl;
-	
-	@Column(name="year")
-	private String year;
-	
-	@OneToOne
-    @JoinColumn(name = "user_id")
-    private User user;
-
-	@OneToMany(mappedBy = "faculty", cascade = CascadeType.ALL)
-    private Set<Courses> courses = new HashSet<>();
-
-    @ManyToOne
-    @JoinColumn(name = "department_id")
-    private Department department;
+	public Faculty(Integer userId, String photoUrl, String officeHours, User user, Set<Courses> courses,
+			Department department) {
+		super();
+		this.userId = userId;
+		this.photoUrl = photoUrl;
+		this.officeHours = officeHours;
+		this.user = user;
+		this.courses = courses;
+		this.department = department;
+	}
+    
+    
 }

@@ -18,14 +18,29 @@ public class Department {
 	
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	@Id
-	private Long id;
+	private Integer deptId;
+
+	@Column(name="dept_name")
+	private String deptName;
 	
-	public Long getId() {
-		return id;
+	@Column(name="dept_desc")
+	private String deptDesc;
+
+	@OneToMany(mappedBy = "department", cascade = CascadeType.ALL)
+    private Set<Student> students = new HashSet<>();
+
+    @OneToMany(mappedBy = "department", cascade = CascadeType.ALL)
+    private Set<Faculty> faculties = new HashSet<>();
+
+    @OneToMany(mappedBy = "department", cascade = CascadeType.ALL)
+    private Set<Courses> courses = new HashSet<>();
+
+	public Integer getDeptId() {
+		return deptId;
 	}
 
-	public void setId(Long id) {
-		this.id = id;
+	public void setDeptId(Integer deptId) {
+		this.deptId = deptId;
 	}
 
 	public String getDeptName() {
@@ -34,6 +49,14 @@ public class Department {
 
 	public void setDeptName(String deptName) {
 		this.deptName = deptName;
+	}
+
+	public String getDeptDesc() {
+		return deptDesc;
+	}
+
+	public void setDeptDesc(String deptDesc) {
+		this.deptDesc = deptDesc;
 	}
 
 	public Set<Student> getStudents() {
@@ -52,14 +75,6 @@ public class Department {
 		this.faculties = faculties;
 	}
 
-	public Set<Administrator> getAdministrators() {
-		return administrators;
-	}
-
-	public void setAdministrators(Set<Administrator> administrators) {
-		this.administrators = administrators;
-	}
-
 	public Set<Courses> getCourses() {
 		return courses;
 	}
@@ -68,18 +83,16 @@ public class Department {
 		this.courses = courses;
 	}
 
-	@Column(name="dept_name")
-	private String deptName;
-
-	@OneToMany(mappedBy = "department", cascade = CascadeType.ALL)
-    private Set<Student> students = new HashSet<>();
-
-    @OneToMany(mappedBy = "department", cascade = CascadeType.ALL)
-    private Set<Faculty> faculties = new HashSet<>();
-
-    @OneToMany(mappedBy = "department", cascade = CascadeType.ALL)
-    private Set<Administrator> administrators = new HashSet<>();
-
-    @OneToMany(mappedBy = "department", cascade = CascadeType.ALL)
-    private Set<Courses> courses = new HashSet<>();
+	public Department(Integer deptId, String deptName, String deptDesc, Set<Student> students, Set<Faculty> faculties,
+			Set<Courses> courses) {
+		super();
+		this.deptId = deptId;
+		this.deptName = deptName;
+		this.deptDesc = deptDesc;
+		this.students = students;
+		this.faculties = faculties;
+		this.courses = courses;
+	}
+    
+    
 }

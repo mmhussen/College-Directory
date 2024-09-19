@@ -15,7 +15,7 @@ public class User {
 
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	@Id
-	private Long id;
+	private Integer id;
 	
 	@Column(name="user_name")
 	private String userName;
@@ -35,11 +35,11 @@ public class User {
     @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
     private Administrator administrator;
 
-	public Long getId() {
+	public Integer getId() {
 		return id;
 	}
 
-	public void setId(Long id) {
+	public void setId(Integer id) {
 		this.id = id;
 	}
 
@@ -90,7 +90,19 @@ public class User {
 	public void setAdministrator(Administrator administrator) {
 		this.administrator = administrator;
 	}
-    
+
+	public User(Integer id, String userName, String password, String role, Student student, Faculty faculty,
+			Administrator administrator) {
+		super();
+		this.id = id;
+		this.userName = userName;
+		this.password = password;
+		this.role = role;
+		this.student = student;
+		this.faculty = faculty;
+		this.administrator = administrator;
+	}
+
     
 	
 	

@@ -19,33 +19,33 @@ import jakarta.persistence.Table;
 @Entity(name="student")
 public class Student {
 	
-	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	@Id
-	private Long id;
-	
-	@Column(name="student_name")
-	private String studentName;
-	
-	public String getStudentName() {
-		return studentName;
-	}
-
-	public void setStudentName(String studentName) {
-		this.studentName = studentName;
-	}
+	private Integer userId;
 
 	@Column(name="photo_url")
 	private String photoUrl;
 	
 	@Column(name="year")
 	private String year;
-	
-	public Long getId() {
-		return id;
+
+	@OneToOne
+    @JoinColumn(name = "user_id")
+    private User user;
+
+    @ManyToOne
+    @JoinColumn(name = "department_id")
+    private Department department;
+    
+    @ManyToMany
+    @JoinTable(name="studentCourse",joinColumns=@JoinColumn(name="student_id"),inverseJoinColumns = @JoinColumn(name="course_id"))
+    private Set<Courses> courses = new HashSet<>();
+
+	public Integer getUserId() {
+		return userId;
 	}
 
-	public void setId(Long id) {
-		this.id = id;
+	public void setUserId(Integer userId) {
+		this.userId = userId;
 	}
 
 	public String getPhotoUrl() {
@@ -72,14 +72,6 @@ public class Student {
 		this.user = user;
 	}
 
-	public Set<Courses> getCourses() {
-		return courses;
-	}
-
-	public void setCourses(Set<Courses> courses) {
-		this.courses = courses;
-	}
-
 	public Department getDepartment() {
 		return department;
 	}
@@ -88,20 +80,24 @@ public class Student {
 		this.department = department;
 	}
 
-	@OneToOne
-    @JoinColumn(name = "user_id")
-    private User user;
-	
-	@ManyToMany
-    @JoinTable(
-        name = "student_courses",
-        joinColumns = @JoinColumn(name = "student_id"),
-        inverseJoinColumns = @JoinColumn(name = "course_id")
-    )
-    private Set<Courses> courses = new HashSet<>();
+	public Set<Courses> getCourses() {
+		return courses;
+	}
 
-    @ManyToOne
-    @JoinColumn(name = "department_id")
-    private Department department;
+	public void setCourses(Set<Courses> courses) {
+		this.courses = courses;
+	}
 
+	public Student(Integer userId, String photoUrl, String year, User user, Department department,
+			Set<Courses> courses) {
+		super();
+		this.userId = userId;
+		this.photoUrl = photoUrl;
+		this.year = year;
+		this.user = user;
+		this.department = department;
+		this.courses = courses;
+	}
+
+    
 }

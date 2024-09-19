@@ -43,9 +43,8 @@ public class FacultyController {
 		if(faculty!=null) {
 			existingFaculty.setCourses(faculty.getCourses());
 			existingFaculty.setDepartment(faculty.getDepartment());
-			existingFaculty.setFacultyName(faculty.getFacultyName());
 			existingFaculty.setPhotoUrl(faculty.getPhotoUrl());
-			existingFaculty.setYear(faculty.getYear());
+			existingFaculty.setOfficeHours(faculty.getOfficeHours());
 			
 			return new ResponseEntity<>(facultyService.updateFaculty(existingFaculty), HttpStatus.OK);
 		}else {

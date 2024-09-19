@@ -14,16 +14,29 @@ import jakarta.persistence.Table;
 @Entity(name="administrator")
 public class Administrator {
 	
-	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	@Id
-	private Long id;
+	private Integer userId;
+
+	@Column
+	private String photoUrl;
 	
-	public Long getId() {
-		return id;
+	@Column
+	private String year;
+	
+	@OneToOne
+    @JoinColumn(name = "user_id")
+    private User user;
+	
+	@ManyToOne
+    @JoinColumn(name = "department_id")
+    private Department department;
+
+	public Integer getUserId() {
+		return userId;
 	}
 
-	public void setId(Long id) {
-		this.id = id;
+	public void setUserId(Integer userId) {
+		this.userId = userId;
 	}
 
 	public String getPhotoUrl() {
@@ -58,18 +71,15 @@ public class Administrator {
 		this.department = department;
 	}
 
-	@Column(name="photo_url")
-	private String photoUrl;
+	public Administrator(Integer userId, String photoUrl, String year, User user, Department department) {
+		super();
+		this.userId = userId;
+		this.photoUrl = photoUrl;
+		this.year = year;
+		this.user = user;
+		this.department = department;
+	}
 	
-	@Column(name="year")
-	private String year;
 	
-	@OneToOne
-    @JoinColumn(name = "user_id")
-    private User user;
-	
-	@ManyToOne
-    @JoinColumn(name = "department_id")
-    private Department department;
 
 }

@@ -20,17 +20,31 @@ public class Courses {
 
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	@Id
-	private Long id;
+	private Integer courseId;
 	
-	@Column(name="course_title")
+	@Column
 	private String courseTitle;
+
+	@Column
+	private String courseDesc;
 	
-	public Long getId() {
-		return id;
+	@ManyToOne
+    @JoinColumn(name = "faculty_id")
+    private Faculty faculty;
+
+    @ManyToMany(mappedBy = "courses")
+    private Set<Student> students = new HashSet<>();
+    
+    @ManyToOne
+    @JoinColumn(name = "department_id")
+    private Department department;
+
+	public Integer getCourseId() {
+		return courseId;
 	}
 
-	public void setId(Long id) {
-		this.id = id;
+	public void setCourseId(Integer courseId) {
+		this.courseId = courseId;
 	}
 
 	public String getCourseTitle() {
@@ -73,19 +87,18 @@ public class Courses {
 		this.department = department;
 	}
 
-	@Column(name="course_desc")
-	private String courseDesc;
-	
-	@ManyToOne
-    @JoinColumn(name = "faculty_id")
-    private Faculty faculty;
-
-    @ManyToMany(mappedBy = "courses")
-    private Set<Student> students = new HashSet<>();
+	public Courses(Integer courseId, String courseTitle, String courseDesc, Faculty faculty, Set<Student> students,
+			Department department) {
+		super();
+		this.courseId = courseId;
+		this.courseTitle = courseTitle;
+		this.courseDesc = courseDesc;
+		this.faculty = faculty;
+		this.students = students;
+		this.department = department;
+	}
     
-    @ManyToOne
-    @JoinColumn(name = "department_id")
-    private Department department;
+    
 	
 	
 }
